@@ -1,0 +1,10 @@
+C:/Users/Guilherme Araújo/CLionProjects/Estrutura-de-Dados/cmake-build-debug/CMakeFiles/questao1.dir
+C:/Users/Guilherme Araújo/CLionProjects/Estrutura-de-Dados/cmake-build-debug/CMakeFiles/questao2.dir
+C:/Users/Guilherme Araújo/CLionProjects/Estrutura-de-Dados/cmake-build-debug/CMakeFiles/questao3.dir
+C:/Users/Guilherme Araújo/CLionProjects/Estrutura-de-Dados/cmake-build-debug/CMakeFiles/questao2_atividade2.dir
+C:/Users/Guilherme Araújo/CLionProjects/Estrutura-de-Dados/cmake-build-debug/CMakeFiles/pesquisaBinaria.dir
+C:/Users/Guilherme Araújo/CLionProjects/Estrutura-de-Dados/cmake-build-debug/CMakeFiles/remove.dir
+C:/Users/Guilherme Araújo/CLionProjects/Estrutura-de-Dados/cmake-build-debug/CMakeFiles/exercicioProposto.dir
+C:/Users/Guilherme Araújo/CLionProjects/Estrutura-de-Dados/cmake-build-debug/CMakeFiles/lista_simplismente_encadeada.dir
+C:/Users/Guilherme Araújo/CLionProjects/Estrutura-de-Dados/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/Guilherme Araújo/CLionProjects/Estrutura-de-Dados/cmake-build-debug/CMakeFiles/rebuild_cache.dir

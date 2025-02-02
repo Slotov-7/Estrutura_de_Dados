@@ -1,0 +1,10 @@
+# ninja log v6
+13	298	7588237896441510	CMakeFiles/Estrutura_de_Dados.dir/atividade1/questao1.c.obj	25f68bc062fabf33
+6	297	7588237896377389	CMakeFiles/Estrutura_de_Dados.dir/exercicio_proposto.c.obj	35b030d4f1388703
+3	301	7599503350370282	build.ninja	55c761719ae6f54f
+32	659	7588237896633368	CMakeFiles/Estrutura_de_Dados.dir/atividade2/questaoe2.c.obj	792a3b574e3ecc4c
+25	297	7588237896567990	CMakeFiles/Estrutura_de_Dados.dir/atividade1/questao3.c.obj	1f8d8843bd968a0
+44	335	7588237896756708	CMakeFiles/Estrutura_de_Dados.dir/testando_busca_e_ordenacao/pesquisaBinaria.c.obj	a3ac2d80436dbf7b
+3	90	7590127685645300	CMakeFiles/remove.dir/testando_busca_e_ordenacao/removePosition.c.obj	85d707a84f5475d5
+19	296	7588237896505654	CMakeFiles/Estrutura_de_Dados.dir/atividade1/questao2.c.obj	acb98380466a18bc
+91	351	7590127686515650	remove.exe	99080a8008f96514
