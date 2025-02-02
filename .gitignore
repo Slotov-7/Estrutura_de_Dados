@@ -255,6 +255,17 @@ atlassian-ide-plugin.xml
 # Cursive Clojure plugin
 .idea/replstate.xml
 
+cmake-build-debug
+CMakeLists.txt
+insertionPosition.exe
+exercicio_proposto.exe
+lista_simplesmente_encadeada.exe
+pesquisaBinaria.exe
+questao1.exe
+questao2.exe
+questao3.exe
+questaoe2.exe
+removePosition.exe
 # SonarLint plugin
 .idea/sonarlint/
 
