@@ -1,6 +1,3 @@
-//
-// Created by Guilherme Araújo on 29/01/2025.
-//
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -8,6 +5,7 @@
 typedef struct no {
     int valor;          // Valor armazenado no nó
     struct no *prox;    // Ponteiro para o próximo nó da lista
+    struct no *ante;   // ponteiro para o nó anterior
 } No;
 
 typedef struct {
@@ -16,11 +14,10 @@ typedef struct {
 }Lista;
 
 void criar_lista(Lista *lista) {
-    lista -> inicio = NULL;
+    lista -> inicio = NULL;// Inicializa o início da lista como NULL
     lista -> tam = 0;
 }
 
-//procedimento para inserir um elemento no inicio da lista
 //procedimento para inserir um elemento no inicio da lista
 void inserir_no_inicio(No **lista, int num) {
     // Aloca memória para o novo nó
@@ -29,13 +26,15 @@ void inserir_no_inicio(No **lista, int num) {
     // Verifica se a alocação foi bem-sucedida
     if (novo) {
         // Atribui o valor 'num' ao campo 'valor' do novo nó
-        novo->valor = num;
-
+        novo->valor = num;// O novo nó aponta para o antigo início da lista (ou NULL se a lista estava vazia)
         // O novo nó aponta para o antigo início da lista (ou NULL se a lista estava vazia)
-        novo->prox = *lista;
-
+        novo->prox = *lista; // O próximo do novo nó aponta para o antigo início
+        novo->ante = NULL; // O anterior do novo nó é NULL
+        if (*lista) {
+            (*lista)->ante = novo;// O anterior do início da lista aponta para o novo nó
+        }
         // Atualiza o ponteiro da lista para apontar para o novo nó (novo início)
-        *lista = novo;
+        *lista = novo;// O início da lista aponta para o novo nó
     } else {
         printf("Erro de alocação de memória\n");
     }
@@ -47,15 +46,17 @@ void inserir_no_final(No **lista, int num) {
     No *aux, *novo = malloc(sizeof(No));
 
     // Verifica se a alocação foi bem-sucedida
-    if (novo) {
+    if (novo) {// Se a alocação foi bem-sucedida
         // Atribui o valor 'num' ao novo nó
         novo->valor = num;
         // Define o próximo do novo nó como NULL (pois ele será o último)
         novo->prox = NULL;
         // Verifica se a lista está vazia
-        if (*lista == NULL) {
+        if (*lista == NULL) {// Se estiver vazia, o novo nó é o primeiro (e único) elemento
             // Se estiver vazia, o novo nó é o primeiro (e único) elemento
-            *lista = novo;
+            *lista = novo;// O início da lista aponta para o novo nó
+            novo->ante=NULL;// O anterior do novo nó é NULL
+
         } else {
             // Se não estiver vazia, usa 'aux' para percorrer a lista sem perder a referência
             aux = *lista;
@@ -64,7 +65,8 @@ void inserir_no_final(No **lista, int num) {
                 aux = aux->prox;
             }
             // Conecta o último nó da lista ao novo nó
-            aux->prox = novo;
+            aux->prox = novo;// O próximo do último nó aponta para o novo nó
+            novo->ante = aux;// O anterior do novo nó aponta para o nó anterior
         }
     } else {
         printf("Erro de alocação de memória\n");
@@ -83,8 +85,9 @@ void inserir_no_meio(No **lista, int num, int ant) {
         // Verifica se a lista está vazia
         if (*lista == NULL) {
             // Se estiver vazia, o novo nó é o primeiro (e único) elemento
-            novo->prox = NULL;
-            *lista = novo;
+            novo->prox = NULL;// O próximo do novo nó é NULL
+            novo->ante= NULL;// O anterior do novo nó é NULL
+            *lista = novo;// O início da lista aponta para o novo nó
         } else {
             // Se não estiver vazia, usa 'aux' para percorrer a lista
             aux = *lista;
@@ -94,49 +97,49 @@ void inserir_no_meio(No **lista, int num, int ant) {
             }
             // Insere o novo nó após o nó encontrado (ou após o último se 'ant' não existir)
             novo->prox = aux->prox; // Novo nó aponta para o próximo do nó atual
+            aux->prox->ante = novo;// O anterior do proximo nó aponta para o novo nó
+            novo->ante = aux;// O anterior do novo nó aponta para o nó atual
             aux->prox = novo;       // Nó atual aponta para o novo nó
         }
     } else {
         printf("Erro de alocação de memória\n");
     }
 }
-
 // procedimento para inserir um valor na lista de forma ordenada
 void inserir_ordenado(No **lista, int num) {
-    // Declaração de variáveis:
-    // - aux: ponteiro auxiliar para percorrer a lista.
-    // - novo: ponteiro para o novo nó a ser inserido.
     No *aux, *novo = malloc(sizeof(No));
-
     // Verifica se a alocação de memória para o novo nó foi bem-sucedida.
     if (novo) {
-        // Atribui o valor 'num' ao novo nó.
         novo->valor = num;
-
         // Verifica se a lista está vazia (ou seja, se *lista é NULL).
         if (*lista == NULL) {
             // Se a lista estiver vazia, o novo nó será o primeiro e único nó da lista.
             novo->prox = NULL; // O próximo do novo nó é NULL.
+            novo->ante= NULL;// O anterior do novo nó é NULL
             *lista = novo;     // O início da lista aponta para o novo nó.
         }
         // Verifica se o valor do novo nó é menor que o valor do primeiro nó da lista.
         else if (novo->valor < (*lista)->valor) {
             // Se for menor, o novo nó será inserido no início da lista.
             novo->prox = *lista; // O próximo do novo nó aponta para o antigo início da lista.
+            (*lista)->ante = novo;
             *lista = novo;       // O início da lista agora aponta para o novo nó.
         }
         // Caso o novo nó não seja o menor, procura a posição correta para inseri-lo.
         else {
             aux = *lista; // Inicializa aux com o início da lista.
-
             // Percorre a lista enquanto houver um próximo nó (aux->prox) e o valor do novo nó for maior que o valor do próximo nó.
             while (aux->prox && novo->valor > aux->prox->valor) {
                 aux = aux->prox; // Avança para o próximo nó.
             }
-
             // Insere o novo nó na posição correta.
-            novo->prox = aux->prox; // O próximo do novo nó aponta para o próximo nó de aux.
-            aux->prox = novo;       // O próximo de aux aponta para o novo nó.
+            novo->prox = aux->prox;// O próximo do novo nó aponta para o próximo nó de aux.
+            if (aux->prox) {
+                aux->prox->ante = novo;  // O anterior do próximo nó de aux aponta para o novo nó
+            }
+            novo->ante=aux; // O anterior do novo nó aponta para aux
+            aux->prox = novo;// O próximo de aux aponta para o novo nó.
+
         }
     }
     // Caso a alocação de memória falhe, exibe uma mensagem de erro.
@@ -159,10 +162,12 @@ No* remover(No **lista, int num) {
             // Se for igual, o nó a ser removido é o primeiro nó.
             remover = *lista; // Armazena o nó a ser removido.
             *lista = remover->prox; // Atualiza o início da lista para o próximo nó.
+            if (*lista) {
+                (*lista)->ante = NULL;
+            }
         } else {
             // Se o valor não estiver no primeiro nó, percorre a lista para encontrá-lo.
             aux = *lista; // Inicializa aux com o início da lista.
-
             // Percorre a lista enquanto houver um próximo nó (aux->prox) e o valor do próximo nó não for igual a num.
             while (aux->prox && aux->prox->valor != num) {
                 aux = aux->prox; // Avança para o próximo nó.
@@ -174,6 +179,9 @@ No* remover(No **lista, int num) {
                 remover = aux->prox;
                 // Atualiza o ponteiro do nó atual (aux) para pular o nó removido.
                 aux->prox = remover->prox;
+                if (aux->prox) {
+                    aux->prox->ante= aux;
+                }
             }
         }
     }
@@ -215,6 +223,24 @@ void imprimir(Lista lista) {
     printf("\n \n");
 }
 
+No* ultimo_no(No **lista) {
+    No *aux = *lista;
+    while (aux->prox) {
+        aux = aux->prox;
+    }
+    return aux;
+}
+
+void imprimir_contraio(No *no) {
+    printf("\n\tLista: ");
+    while (no) {
+        printf("%d ", no -> valor);
+        no = no -> ante;
+    }
+    printf("\n \n");
+}
+
+
 int main() {
     Lista lista; // Declara uma variável do tipo Lista
     int opcao, valor, referencia; // Variáveis para armazenar a opção do menu, valor e referência
@@ -233,7 +259,8 @@ int main() {
         printf("[5] Remover\n");
         printf("[6] Buscar\n");
         printf("[7] Imprimir lista\n");
-        printf("[8] Sair\n");
+        printf("[8] Imprimir lista ao contrario\n");
+        printf("[9] Sair\n");
         printf("Escolha uma opcao: ");
         scanf("%d", &opcao); // Lê a opção escolhida pelo usuário
 
@@ -294,7 +321,11 @@ int main() {
                 imprimir(lista); // Chama a função para imprimir a lista
                 break;
 
-            case 8: // Sair
+            case 8:
+                imprimir_contraio(ultimo_no(&lista));
+                break;
+
+            case 9: // Sair
                 printf("Encerrando o programa...\n");
                 break;
 
