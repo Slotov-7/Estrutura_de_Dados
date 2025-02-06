@@ -17,9 +17,11 @@ questao1.exe
 pesquisaBinaria.exe
 lista_simplesmente_encadeada.exe
 lista_duplamente_encadeada.exe
+fila_estrutura_fila.exe
+pilha_estrutura_pilha.exe
 lista_circular.exe
 fila.exe
-pinha.exe
+pilha.exe
 insertionPosition.exe
 exercicio_proposto.exe
 removePosition.exe
