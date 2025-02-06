@@ -37,6 +37,50 @@ void inserir(No **fila, int num) {
         printf("Erro de alocação de memória\n");
     }
 }
+void inserir_prioridade(No **fila, int num) {
+    No *aux, *novo = malloc(sizeof(No));
+    // Verifica se a alocação foi bem-sucedida
+    if (novo) {
+        // Atribui o valor 'num' ao novo nó
+        novo->valor = num;
+        // Define o próximo do novo nó como NULL (pois ele será o último)
+        novo->prox = NULL;
+        // Verifica se a lista está vazia
+        if (*fila == NULL) {
+            // Se estiver vazia, o novo nó é o primeiro (e único) elemento
+            *fila = novo;
+        } else {
+            //é prioridade
+            if (num > 59) {
+                //é a prioridade?
+                if ((*fila)->valor < 60) {
+                    novo->prox = *fila;
+                    *fila = novo;
+                }else {
+                    // Se não estiver vazia, usa 'aux' para percorrer a lista sem perder a referência
+                    aux = *fila;
+                    // Percorre a lista até encontrar o último nó (cujo 'prox' é NULL)
+                    while (aux->prox && aux->prox->valor > 59) {
+                        aux = aux->prox;
+                    }
+                    novo->prox = aux->prox;
+                    aux->prox = novo;
+                }
+            }else {
+                // Se não estiver vazia, usa 'aux' para percorrer a lista sem perder a referência
+                aux = *fila;
+                // Percorre a lista até encontrar o último nó (cujo 'prox' é NULL)
+                while (aux->prox) {
+                    aux = aux->prox;
+                }
+            }
+            // Conecta o último nó da fila ao novo nó
+            aux->prox = novo;
+        }
+    } else {
+        printf("Erro de alocação de memória\n");
+    }
+}
 No* remover(No **fila) {
     No *remover = NULL;
     if (*fila) {
