@@ -22,7 +22,6 @@ void criar_lista(Lista *lista) {
 // Função para inserir um elemento no início da lista
 void inserir_no_inicio(No **lista, int num) {
     No *novo = malloc(sizeof(No)); // Aloca memória para o novo nó
-
     // Verifica se a alocação foi bem-sucedida
     if (novo) {
         novo->valor = num;         // Atribui o valor ao novo nó
@@ -47,7 +46,7 @@ void inserir_no_final(No **lista, int num) {
             *lista = novo;         // Se estiver vazia, o novo nó é o primeiro (e único) elemento
         } else {
             aux = *lista;          // Usa 'aux' para percorrer a lista sem perder a referência
-            while (aux->prox != NULL) {
+            while (aux->prox) {
                 aux = aux->prox;   // Percorre a lista até encontrar o último nó (cujo 'prox' é NULL)
             }
             aux->prox = novo;      // Conecta o último nó da lista ao novo nó
@@ -59,7 +58,7 @@ void inserir_no_final(No **lista, int num) {
 
 // Função para inserir um elemento no meio da lista
 void inserir_no_meio(No **lista, int num, int ant) {
-    No *aux, *novo = malloc(sizeof(No)); // Declara ponteiros auxiliares e aloca memória para o novo nó
+    No *novo = malloc(sizeof(No)); // Declara ponteiros auxiliares e aloca memória para o novo nó
 
     // Verifica se a alocação foi bem-sucedida
     if (novo) {
@@ -70,7 +69,7 @@ void inserir_no_meio(No **lista, int num, int ant) {
             novo->prox = NULL;     // O próximo do novo nó é NULL
             *lista = novo;         // O início da lista aponta para o novo nó
         } else {
-            aux = *lista;          // Usa 'aux' para percorrer a lista
+            No *aux = *lista;          // Usa 'aux' para percorrer a lista
             while (aux->valor != ant && aux->prox) {
                 aux = aux->prox;   // Procura o nó com valor 'ant' ou para no último nó
             }
@@ -84,7 +83,7 @@ void inserir_no_meio(No **lista, int num, int ant) {
 
 // Função para inserir um valor na lista de forma ordenada
 void inserir_ordenado(No **lista, int num) {
-    No *aux, *novo = malloc(sizeof(No)); // Declara ponteiros auxiliares e aloca memória para o novo nó
+    No *novo = malloc(sizeof(No)); // Declara ponteiros auxiliares e aloca memória para o novo nó
 
     // Verifica se a alocação foi bem-sucedida
     if (novo) {
@@ -94,11 +93,11 @@ void inserir_ordenado(No **lista, int num) {
         if (*lista == NULL) {
             novo->prox = NULL;     // O próximo do novo nó é NULL
             *lista = novo;         // O início da lista aponta para o novo nó
-        } else if (novo->valor < (*lista)->valor) {
+        } else if (novo->valor < (*lista)->valor) {// Se o valor a ser inserido é menor que o primeiro da lista
             novo->prox = *lista;   // O novo nó aponta para o antigo início da lista
             *lista = novo;         // O início da lista agora aponta para o novo nó
         } else {
-            aux = *lista;          // Inicializa 'aux' com o início da lista
+            No *aux = *lista;      // Inicializa 'aux' com o início da lista
             while (aux->prox && novo->valor > aux->prox->valor) {
                 aux = aux->prox;   // Percorre a lista até encontrar a posição correta
             }
@@ -112,15 +111,15 @@ void inserir_ordenado(No **lista, int num) {
 
 // Função para remover um nó da lista
 No* remover(No **lista, int num) {
-    No *aux, *remover = NULL; // Declara ponteiros auxiliares e inicializa 'remover' como NULL
+    No *remover = NULL; // Declara ponteiros auxiliares e inicializa 'remover' como NULL
 
     // Verifica se a lista não está vazia
     if (*lista) {
         if ((*lista)->valor == num) {
             remover = *lista;      // Armazena o nó a ser removido
-            *lista = remover->prox; // Atualiza o início da lista para o próximo nó
+            *lista = (*lista)->prox; // Atualiza o início da lista para o próximo nó
         } else {
-            aux = *lista;          // Inicializa 'aux' com o início da lista
+            No *aux = *lista;          // Inicializa 'aux' com o início da lista
             while (aux->prox && aux->prox->valor != num) {
                 aux = aux->prox;   // Percorre a lista até encontrar o nó a ser removido
             }

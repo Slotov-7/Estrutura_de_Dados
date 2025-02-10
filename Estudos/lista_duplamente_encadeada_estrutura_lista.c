@@ -85,7 +85,7 @@ void inserir_no_meio(Lista *lista, int num, int ant) {
                 aux = aux->prox;   // Procura o nó com valor 'ant' ou para no último nó
             }
             novo->prox = aux->prox; // O novo nó aponta para o próximo do nó atual
-            if (aux->prox) {
+            if (aux->prox) {		// Se o próximo nó existe
                 aux->prox->ante = novo; // O anterior do próximo nó aponta para o novo nó
             }
             novo->ante = aux;      // O anterior do novo nó aponta para o nó atual
@@ -138,10 +138,10 @@ No* remover(Lista *lista, int num) {
 
     // Verifica se a lista não está vazia
     if (lista->inicio) {
-        if (lista->inicio->valor == num) {
+        if (lista->inicio->valor == num) {// Se o valor a ser removido está no início
             remover = lista->inicio; // Armazena o nó a ser removido
             lista->inicio = remover->prox; // Atualiza o início da lista para o próximo nó
-            if (lista->inicio) {
+            if (lista->inicio) {// Se a lista não estiver vazia
                 lista->inicio->ante = NULL; // O anterior do novo início é NULL
             }
         } else {
@@ -149,10 +149,10 @@ No* remover(Lista *lista, int num) {
             while (aux->prox && aux->prox->valor != num) {
                 aux = aux->prox;   // Percorre a lista até encontrar o nó a ser removido
             }
-            if (aux->prox) {
+            if (aux->prox) {// Se o nó a ser removido foi encontrado
                 remover = aux->prox; // Armazena o nó a ser removido
                 aux->prox = remover->prox; // Atualiza o próximo do nó atual
-                if (aux->prox) {
+                if (aux->prox) {// Se o próximo nó existe
                     aux->prox->ante = aux; // O anterior do próximo nó aponta para 'aux'
                 }
             }
