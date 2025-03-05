@@ -89,18 +89,107 @@ void imprimir_arvore_in_ordem(No *raiz) {
         imprimir_arvore_in_ordem(raiz->filhoDir); // Imprime o filho direito em in-ordem
     }
 }
+// Função para imprimir a árvore em pós-ordem
+void imprimir_arvore_pos_ordem(No *raiz) {
+    if (raiz) { // Se o nó não é NULL
+        imprimir_arvore_pos_ordem(raiz->filhoEsq); // Imprime o filho esquerdo em pré-ordem
+        imprimir_arvore_pos_ordem(raiz->filhoDir); // Imprime o filho direito em pré-ordem
+        printf("%d ", raiz->valor); // Imprime o valor do nó
+    }
+}
 
-No* buscar_1(No *raiz, int valor) {
-    if (raiz) {
-        if (valor == raiz->valor) {
+No* buscar_1(No *raiz, int valor) {// Busca um valor na árvore
+    if (raiz) {// Se a árvore não está vazia
+        if (valor == raiz->valor) {// Se o valor é igual ao valor do nó atual
+            return raiz;// Retorna o nó atual
+        }
+        if(valor < raiz->valor) {// Se o valor é menor que o valor do nó atual
+            return buscar_1(raiz->filhoEsq, valor);// Busca no filho esquerdo
+        }
+            return buscar_1(raiz->filhoDir, valor);// Busca no filho direito
+    }
+    return NULL;// Retorna NULL se a árvore está vazia
+}
+
+No* buscar_2(No *raiz, int valor) {// Busca um valor na árvore
+    if (raiz) {// Se a árvore não está vazia
+        while (raiz) {// Enquanto não chegar ao final da árvore
+            if (valor < raiz->valor) {// Se o valor é menor que o valor do nó atual
+                raiz = raiz->filhoEsq;// Move para o filho esquerdo
+            }else if (valor > raiz->valor) {// Se o valor é maior que o valor do nó atual
+                raiz = raiz->filhoEsq;// Move para o filho direito
+            }else {// Se o valor é igual ao valor do nó atual
+                return raiz;// Retorna o nó atual
+            }
+        }
+    }
+    return NULL;// Retorna NULL se a árvore está vazia
+}
+
+int calcular_altura(No *raiz) {
+    if (raiz == NULL) {// Se a árvore está vazia
+        return -1;// Retorna -1
+    }else {// Se a árvore não está vazia
+        int esq = calcular_altura(raiz->filhoEsq);// Calcula a altura do filho esquerdo
+        int dir = calcular_altura(raiz->filhoDir);// Calcula a altura do filho direito
+        if (esq > dir) {// Se a altura do filho esquerdo é maior que a do filho direito
+            return esq + 1;// Retorna a altura do filho esquerdo + 1
+        }else {// Se a altura do filho direito é maior que a do filho esquerdo
+            return dir + 1;// Retorna a altura do filho direito + 1
+        }
+    }
+}
+int calcular_nos(No *raiz) {// Calcula o número de nós da árvore
+    if (raiz == NULL) {// Se a árvore está vazia
+        return 0;// Retorna 0
+    }else {// Se a árvore não está vazia
+        return calcular_nos(raiz->filhoEsq) + calcular_nos(raiz->filhoDir) + 1;// Retorna o número de nós do filho esquerdo + o número de nós do filho direito + 1
+    }
+    // return (raiz == NULL)? 0 : calcular_nos(raiz->filhoEsq) + calcular_nos(raiz->filhoDir) + 1;// Retorna 0 se a árvore está vazia, senão retorna o número de nós do filho esquerdo + o número de nós do filho direito + 1
+}
+int calcular_folhas(No *raiz) {
+    if (raiz == NULL) {
+        return 0;
+    }
+    else if(raiz->filhoEsq == NULL && raiz->filhoDir == NULL) {
+        return 1;
+    }else {
+        return  calcular_folhas(raiz->filhoDir) + calcular_folhas( raiz->filhoEsq);
+    }
+}
+
+//funcao para remover o nó folha de uma arcore binária
+
+No* remover(No *raiz, int valor) {
+    if (raiz == NULL) {
+        printf("Erro ao remver\n");
+        return NULL;
+    }else {
+        if (raiz->valor == valor) {
+            if (raiz->filhoEsq == NULL && raiz->filhoDir == NULL) {
+                free(raiz);
+                printf("elemento folha removido: %d\n", valor);
+                return NULL;
+            }else {
+                //remover nos com 1 ou 2 filhos
+                if (raiz->filhoEsq != NULL && raiz->filhoDir != NULL) {//
+
+                }else {//remover nó com 1 filho
+                    No *aux = raiz->filhoEsq != NULL ? raiz->filhoEsq : raiz->filhoDir;
+                    free(raiz);
+                    printf("elemento com um filho removido: %d\n", valor);
+                    return aux;
+                }
+            }
+        }else {
+            if (valor < raiz->valor) {
+                raiz->filhoEsq = remover(raiz->filhoEsq, valor);
+            }else {
+                raiz->filhoDir = remover(raiz->filhoDir, valor);
+            }
             return raiz;
         }
-        if(valor < raiz->valor) {
-            return buscar_1(raiz->filhoEsq, valor);
-        }
-            return buscar_1(raiz->filhoDir, valor);
     }
-    return NULL;
 }
 
 // Função principal
@@ -115,8 +204,13 @@ int main() {
         printf("3 - Inserir um valor (imperativo) na arvore\n");
         printf("4 - Imprimir arvore em pre-ordem\n");
         printf("5 - Imprimir arvore em in-ordem\n");
-        printf("6 - Buscar um valor na arvore\n");
-        printf("7 - Sair\n");
+        printf("6 - Imprimir arvore em pos-ordem\n");
+        printf("7 - Buscar um valor na arvore\n");
+        printf("8 - Buscar um valor (imperativo) na arvore\n");
+        printf("9 - Calcular a altura da arvore\n");
+        printf("10 - Calcular o numero de nos da arvore\n");
+        printf("11 - Calular o numero de folhas da arvore \n");
+        printf("0 - Sair\n");
         printf("Escolha uma opcao: ");
         scanf("%d", &opcao); // Lê a opção do usuário
 
@@ -163,6 +257,16 @@ int main() {
                 break;
 
             case 6:
+                if (raiz == NULL) { // Se a árvore está vazia
+                    printf("A arvore esta vazia!\n");
+                } else {
+                    printf("Impressao em pos-ordem: ");
+                    imprimir_arvore_pos_ordem(raiz); // Imprime a árvore em in-ordem
+                    printf("\n");
+                }
+            break;
+
+            case 7:
                 printf("Digite o valor a ser buscado: ");
                 scanf("%d", &valor); // Lê o valor a ser buscado
                 busca = buscar_1(raiz, valor); // Busca o valor na árvore usando a função buscar_1
@@ -173,7 +277,30 @@ int main() {
                 }
             break;
 
-            case 7:
+            case 8:
+                printf("Digite o valor a ser buscado: ");
+            scanf("%d", &valor); // Lê o valor a ser buscado
+            busca = buscar_2(raiz, valor); // Busca o valor na árvore usando a função buscar_1
+            if (busca) {
+                printf("\n\tValor %d encontrado na arvore!\n", valor);
+            }else {
+                printf("\n\tValor %d nao encontrado na arvore!\n", valor);
+            }
+            break;
+
+            case 9:
+                printf("A altura da arvore e: %d\n", calcular_altura(raiz)); // Calcula a altura da árvore
+                break;
+
+            case 10: // Calcula o número de nós da árvore
+                printf("O numero de nos da arvore e: %d\n", calcular_nos(raiz));
+                break;
+
+            case 11:
+                printf("O numero de folhas da arvore e: %d\n", calcular_folhas(raiz));
+            break;
+
+            case 0:
                 printf("Saindo do programa...\n");
                 break;
 
@@ -181,7 +308,7 @@ int main() {
                 printf("Opcao invalida! Tente novamente.\n");
                 break;
         }
-    } while (opcao != 7); // Continua o loop até o usuário escolher sair
+    } while (opcao != 0); // Continua o loop até o usuário escolher sair
 
     return 0; // Retorna 0 para indicar que o programa terminou com sucesso
 }
