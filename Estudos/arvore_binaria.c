@@ -166,13 +166,22 @@ No* remover(No *raiz, int valor) {
         return NULL;
     }else {
         if (raiz->valor == valor) {
-            if (raiz->filhoEsq == NULL && raiz->filhoDir == NULL) {
+            if (raiz->filhoEsq == NULL && raiz->filhoDir == NULL) {//nó folha ou sem filhos
                 free(raiz);
                 printf("elemento folha removido: %d\n", valor);
                 return NULL;
             }else {
-                //remover nos com 1 ou 2 filhos
-                if (raiz->filhoEsq != NULL && raiz->filhoDir != NULL) {//
+                if (raiz->filhoEsq != NULL && raiz->filhoDir != NULL) {//remover nó com dois filhos
+                    No *aux = raiz->filhoEsq;
+                    while (aux->filhoDir != NULL) {
+                        aux = aux->filhoDir;
+                    }
+                    raiz->valor = aux->valor; // Atribui o valor do nó auxiliar ao nó atual
+                    aux->valor = valor;// Atribui o valor do nó atual ao nó auxiliar
+                    //caso fosse uma estrutura, um struct, tinha que uma copia de toda as estrutura para depois colocar ela no nó auxiliar e assim podendo remover o nó auxiliar que não tem filhos
+                    raiz->filhoEsq = remover(raiz->filhoEsq, valor);// Remove o nó auxiliar
+                    printf("elemento com dois filhos removido: %d\n", valor);
+                    return raiz;
 
                 }else {//remover nó com 1 filho
                     No *aux = raiz->filhoEsq != NULL ? raiz->filhoEsq : raiz->filhoDir;
